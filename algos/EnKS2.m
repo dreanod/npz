@@ -1,8 +1,10 @@
-function [Xs] = EnKS2(Xa, Xf)
+function [Xs] = EnKS2(obs, mod, H, x0, sqB, sqQ, sqR, Ne)
 %ENKS Summary of this function goes here
 %   Detailed explanation goes here
+    [Xa, Xf, ~] = EnKF2(obs, mod, H, x0, sqB, sqQ, sqR, Ne);
+    
     [Nx, Ne, T] = size(Xf);
-
+  
     Xs = zeros(Nx, Ne, T+1);
     X = Xa(:,:,end);
     Xs(:,:,end) = X;

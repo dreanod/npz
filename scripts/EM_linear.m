@@ -34,38 +34,33 @@ sqB = chol(B);
 sqR = chol(R);
 sqQ = chol(Q);
 
-[Xa, Xf, ~] = EnKF2(obs, mod, H, x0, sqB, sqQ, sqR, Ne);
-
+Xs = EnKS2(obs, mod, H, x0, sqB, sqQ, sqR, Ne);
 
 %%
 
-xa = squeeze(mean(Xa,2));
-xf = squeeze(mean(Xf,2));
+xs = squeeze(mean(Xs, 2));
 
 figure
 subplot(3,1,1)
 plot(truth(1,:), 'g-')
 hold on
-plot(xa(1,:), 'r.')
-plot(xf(1,:), 'k.')
-legend('truth','EnKF','EnKS');
+plot(xs(1,:), 'k.')
+legend('truth', 'EnKS');
 hold off
 
 subplot(3,1,2)
 plot(obs, 'bo')
 hold on
 plot(truth(2,:), 'g-')
-plot(xa(2,:), 'r.')
-plot(xf(2,:), 'k.')
-legend('obs','truth','EnKF', 'EnKS');
+plot(xs(2,:), 'k.')
+legend('obs','truth','EnKS');
 hold off
 
 subplot(3,1,3)
 plot(truth(3,:), 'g-')
 hold on
-plot(xa(3,:), 'r.')
-plot(xf(3,:), 'k.')
-legend('truth','EnKF', 'EnKS');
+plot(xs(3,:), 'k.')
+legend('truth', 'EnKS');
 hold off
 title('results - EnKS')
 
