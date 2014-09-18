@@ -1,45 +1,54 @@
-function [ENSA, ENSF, GainK] = EnKF(obs, mod, H, xb, B, Q, R, Nx, No, T, Ne)
+function [Xa, Xf, K] = EnKF(obs, f, h, xb, sqB, sqQ, sqR, Ne)
 %ENKF Summary of this function goes here
 %   Detailed explanation goes here
+    Nx = size(xb, 1);
+    No = size(obs, 1);
+    T  = size(obs, 2);
 
-    sqB = chol(B);
-    sqQ = chol(Q);
-    sigmao = sqrt(R);
-
-    ENSA = zeros(Nx, Ne, T + 1);
-    ENSF = zeros(Nx, Ne, T);
-
-    % Initialization
-    Ensa = zeros(Nx, Ne);
+    Xa = zeros(Nx, Ne, T + 1);
+    Xf = zeros(Nx, Ne, T);
+    X  = zeros(Nx, Ne);
+    Ex = zeros(Nx, Ne);
+    Y  = zeros(No, Ne);
+    Ey = zeros(No, Ne);
+    
+    % Initialize ensemble
     for i = 1:Ne
-        Ensa( :,i ) = xb + sqB * randn( Nx,1 );
+        X(:, i) = xb + sqB * randn(Nx, 1);
     end
-    ENSA(:,:,1) = Ensa;
+    Xa(:,:,1) = X;
 
     for t=1:T
+        
         % Forecast
-        Ensf = Ensa;
-        for i =1:Ne
-            Ensf(:,i) = mod(Ensf(:,i)) + sqQ * randn( Nx,1 ); 
-        end
-        ENSF(:,:,t) = Ensf;
-
-        % Perturb observations
-        Y = zeros(No,Ne);
+        W = sqQ * randn(Nx, Ne); % model noise
+        Z = sqR * randn(No, Ne); % measure noise
+        
         for i = 1:Ne
-            Y(:,i) = obs(:,t) + sigmao * randn(No,1);
+            X(:, i) = f(X(:, i)) + W(:, i);
+            Y(:, i) = h(X(:, i)) + Z(:, i);
         end
-
-        Ensfm = mean(Ensf,2);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
-
+        Xf(:,:,t) = X;
+        
+        Xmean = mean(X, 2);
+        for i = 1:Ne
+            Ex(:, i) = X(:, i) - Xmean;
+        end
+        Ex = Ex / sqrt(Ne - 1);
+        
+        Ymean = mean(Y, 2);
+        for i = 1:Ne
+            Ey(:, i) = Y(:, i) - Ymean;
+        end
+        Ey = Ey / sqrt(Ne - 1);
+        
+            
         % Update
-        Ensfp = Ensf - repmat(Ensfm,1,Ne);
-        Pf = 1/(Ne-1) * (Ensfp * Ensfp');
-        GainK = (Pf * H') * (H*Pf*H' + R)^(-1);
+        K = Ex * Ey' * (Ey * Ey' + sqR * sqR')^(-1);
         for i =1:Ne
-            Ensa(:,i) = Ensf(:,i) + GainK * (Y(:,i) - H*Ensf(:,i));
+            X(:, i) = X(:, i) + K * (obs(:, t) - Y(:, i));
         end
-        ENSA(:,:,t+1) = Ensa;
+        Xa(:, :, t + 1) = X;
     end
 
 end

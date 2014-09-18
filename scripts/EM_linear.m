@@ -25,19 +25,29 @@ H = @(x) H * x;
 sigmao = .1; % obs noise deviation
 R      = sigmao^2*eye(No); % obs noise covariance
 
+nIter = 50;
+
 %% Generate observations
 
-[ obs, truth ] = gen_obs2( mod, H, x0, Q, R, T, No );
+[ obs, truth ] = gen_obs( mod, H, x0, Q, R, T, No );
 
 %% EM with EnKS2
-sqB = chol(B);
-sqR = chol(R);
-sqQ = chol(Q);
+R = 10;
+Q = 1*eye(3);
+xb0 = zeros(3,1);
+B = eye(3);
 
-Xs = EnKS2(obs, mod, H, x0, sqB, sqQ, sqR, Ne);
+sqB0 = chol(B);
+sqR0 = chol(R);
+sqQ0 = chol(Q);
+
+
+[Xs, xb, sqB, sqQ, sqR, loglik] = EM(xb0, sqB0, sqQ0, sqR0, mod, H, obs, Ne, nIter);
 
 %%
 
+plot(loglik)
+%%
 xs = squeeze(mean(Xs, 2));
 
 figure

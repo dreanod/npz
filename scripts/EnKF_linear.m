@@ -27,13 +27,13 @@ R      = sigmao^2*eye(No); % obs noise covariance
 
 %% Generate observations
 
-[ obs, truth ] = gen_obs2( mod, H, x0, Q, R, T, No );
+[ obs, truth ] = gen_obs( mod, H, x0, Q, R, T, No );
 
 %% EM with EnKS2
 sqB = chol(B);
 sqR = chol(R);
 sqQ = chol(Q);
-[Xa, Xf, ~] = EnKF2(obs, mod, H, x0, sqB, sqQ, sqR, Ne);
+[Xa, Xf, ~] = EnKF(obs, mod, H, x0, sqB, sqQ, sqR, Ne);
 
 %%
 

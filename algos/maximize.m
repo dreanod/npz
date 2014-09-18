@@ -1,8 +1,8 @@
-function [ xb, B, Q, R ] = maximize( X, obs, H, mod )
+function [ xb, sqB, sqQ, sqR ] = maximize( X, obs, h, mod )
 %MAXIMIZE Summary of this function goes here
 %   Detailed explanation goes here
     [~, Ne, T] = size(X);
-    No = size(H, 1);
+    No = size(h, 1);
     T = T-1;
     
     xb = mean(X(:, :, 1), 2);
@@ -17,10 +17,13 @@ function [ xb, B, Q, R ] = maximize( X, obs, H, mod )
     
     W = zeros([No, Ne, T]);
     for t = 1:T
-        W(:, :, t) = obs(:, t) - H * X(:, :, t +1);
+        W(:, :, t) = obs(:, t) - h(X(:, :, t +1));
     end
     W = reshape(W, [], T * Ne);
     R = (W * W') / (T * Ne);
 
+    sqB = chol(B);
+    sqR = chol(R);
+    sqQ = chol(Q);
 end
 

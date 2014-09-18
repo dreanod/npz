@@ -1,16 +1,27 @@
-function [l] = likelihood(obs, H, R, x, P, T)
+function [l] = likelihood(Xf, obs, h, sqR)
 %LIKELIHOOD Summary of this function goes here
 %   Detailed explanation goes here
 
-l=0;
-for t=1:T
-    innov = obs(t) - H*x(:,t);
-    sig = H*P(:,:,t)*H' + R;
-    sig = .5*(sig + sig');
-    siginv = inv(sig);
-    l = l + log(det(sig)) + innov'*siginv*innov;
-end
+    [~, Ne, T] = size(Xf);
+    No = size(obs, 1);
 
-l = l/2;
+    l=0;
+    x = mean(Xf, 2);
+    Y = zeros(No, Ne);
+    for t=1:T
+        innov = obs(t) - h(x(:,t));
+        for i = 1:Ne
+            Y(:, i) = h(Xf(:, i, t));
+        end
+        Ymean = mean(Y, 2);
+        for i = 1:Ne
+            Y(:, i) = Y(:, i) - Ymean;
+        end
+        sig = Y * Y' + sqR*sqR';
+        sig = .5*(sig + sig');
+        siginv = inv(sig);
+        l = l + log(det(sig)) + innov'*siginv*innov;
+    end
+    l = l/2;
 end
 
