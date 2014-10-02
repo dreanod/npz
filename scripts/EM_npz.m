@@ -45,22 +45,18 @@ H = zeros(1, Nx); H(2) = 1; H(end) = 1;
 npz = @(x) npz_predict(x);
 h   = @(x) H * x;
 
+nIter = 10; % Nb of EM iterations
+
 %% Generate Observations
 
 [obs, truth] = gen_obs(npz, h, X0, sqQ, sqR, T);
 
 %% EM with EnKS2
-R = 10;
-Q = 1*eye(3);
-xb0 = zeros(3,1);
-B = eye(3);
 
-sqB0 = chol(B);
-sqR0 = chol(R);
-sqQ0 = chol(Q);
-
-
-[Xs, xb, sqB, sqQ, sqR, loglik] = EM(xb0, sqB0, sqQ0, sqR0, mod, H, obs, Ne, nIter);
+% Trying with real parameters
+% Starting parameters around 5 % of true values
+sqB = 0.032 * eye(Nx);
+[Xs, xb, sqB, sqQ, sqR, loglik] = EM(X0, sqB, sqQ, sqR, npz, h, obs, Ne, nIter);
 
 %%
 

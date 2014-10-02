@@ -17,7 +17,7 @@ theta = [mu; k; G; gamma; ep; ez; ep_; ez_];
 sigma_theta = zeros(size(theta));
 
 % Observation parameter is fixed
-c     = 2;
+c       = 2;
 sigma_c = 0;
 
 % phi evolve with a random walk model
@@ -36,7 +36,6 @@ sqQ = diag(sigma);
 Nx = size(X0, 1);
 T  = 150; % nb of time steps
 No = 1; % size of observations
-Ne = 30;
 
 sigmao = 0.06; % obs noise deviation, CI of ± 10% around true value
 sqR      = sigmao*eye(No); % obs noise covariance
@@ -51,7 +50,6 @@ h   = @(x) H * x;
 
 %% EnKF
 
-Ne = 100;
 sqB = 0.05 * eye(Nx);
 X0 = X0 * 1.05;
 
