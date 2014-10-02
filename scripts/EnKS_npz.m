@@ -55,11 +55,10 @@ Ne = 100;
 sqB = 0.05 * eye(Nx);
 X0 = X0 * 1.05;
 
-[Xa, Xf, K] = EnKF(obs, npz, h, X0, sqB, sqQ, sqR, Ne);
-
+[Xs, l] = EnKS(obs, npz, h, X0, sqB, sqQ, sqR, Ne);
 %%
 
-xa = squeeze(mean(Xa,2));
+xs = squeeze(mean(Xs,2));
 
 %%
 figure
@@ -67,13 +66,14 @@ for i = 1:Nx
     subplot(7,2,i)
     plot(truth(i,:), 'g-')
     hold on
-    plot(xa(i,:), 'r.')
+    plot(xs(i,:), 'r.')
     ylabel(i)
     legend('truth','EnKF','EnKS');
     hold off
 end
 
 %%
-diff2 = (truth - xa).^2;
-RMSE_EnKS = sum(diff2(:))/numel(diff2)
+diff2 = (truth - xs).^2;
+RMSE_EnKS = sum(diff2(:))/numel(diff2);
+disp(['RMSE of EnKS: ', num2str(RMSE_EnKS)]);
 

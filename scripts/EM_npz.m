@@ -49,31 +49,46 @@ h   = @(x) H * x;
 
 [obs, truth] = gen_obs(npz, h, X0, sqQ, sqR, T);
 
-%% EnKF
+%% EM with EnKS2
+R = 10;
+Q = 1*eye(3);
+xb0 = zeros(3,1);
+B = eye(3);
 
-Ne = 100;
-sqB = 0.05 * eye(Nx);
-X0 = X0 * 1.05;
+sqB0 = chol(B);
+sqR0 = chol(R);
+sqQ0 = chol(Q);
 
-[Xa, Xf, K] = EnKF(obs, npz, h, X0, sqB, sqQ, sqR, Ne);
+
+[Xs, xb, sqB, sqQ, sqR, loglik] = EM(xb0, sqB0, sqQ0, sqR0, mod, H, obs, Ne, nIter);
 
 %%
 
-xa = squeeze(mean(Xa,2));
-
+plot(loglik)
 %%
+xs = squeeze(mean(Xs, 2));
+
 figure
-for i = 1:Nx
-    subplot(7,2,i)
-    plot(truth(i,:), 'g-')
-    hold on
-    plot(xa(i,:), 'r.')
-    ylabel(i)
-    legend('truth','EnKF','EnKS');
-    hold off
-end
+subplot(3,1,1)
+plot(truth(1,:), 'g-')
+hold on
+plot(xs(1,:), 'k.')
+legend('truth', 'EnKS');
+hold off
 
-%%
-diff2 = (truth - xa).^2;
-RMSE_EnKS = sum(diff2(:))/numel(diff2)
+subplot(3,1,2)
+plot(obs, 'bo')
+hold on
+plot(truth(2,:), 'g-')
+plot(xs(2,:), 'k.')
+legend('obs','truth','EnKS');
+hold off
+
+subplot(3,1,3)
+plot(truth(3,:), 'g-')
+hold on
+plot(xs(3,:), 'k.')
+legend('truth', 'EnKS');
+hold off
+title('results - EnKS')
 
