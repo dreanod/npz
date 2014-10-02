@@ -1,4 +1,4 @@
-function [obs, truth] = gen_obs(mod, h, x0, sqQ, sqR, T)
+function [obs, truth] = gen_obs(mod, h, x0, sqQ, sqR, T, theta, c)
 %GEN_OBS Summary of this function goes here
 %   Detailed explanation goes here
     
@@ -12,8 +12,8 @@ function [obs, truth] = gen_obs(mod, h, x0, sqQ, sqR, T)
     obs = zeros([No, T]);
 
     for t = 1:T
-        x = mod(x) + sqQ * randn([Nx, 1]);
-        y = h(x) + sqR * randn([No, 1]);
+        x = mod(x, theta) + sqQ * randn([Nx, 1]);
+        y = h(x, c) + sqR * randn([No, 1]);
 
         truth(:, t + 1) = x; 
         obs(:, t) = y;
