@@ -1,3 +1,6 @@
+% Simple EM case to test if algos correctly implemented. The EM is
+% initialized with the true values. 
+
 rng( 'default' )
 clear all
 
@@ -9,44 +12,38 @@ Nx = 3; % size of state
 Ne = 100;
 
 x0 = ones(Nx,1); % background mean
-B = .1 * eye(Nx);
+sqB = .1 * eye(Nx);
 
 % propagation operator
 theta1 = .1; theta2 = .1;
-mod = @(x)  linear_rot(x, theta1, theta2);
+theta = [theta1; theta2];
+mod = @(x, theta)  linear_rot(x, theta(1), theta(2));
 
 % model noise covariance
-Q   = 0.01*eye(3); 
+sqQ   = 0.1*eye(3); 
 
 % obs operator
 H  = [0,1,0]; 
-H = @(x) H * x;
+h = @(x, c) H * x;
 
 sigmao = .1; % obs noise deviation
-R      = sigmao^2*eye(No); % obs noise covariance
+sqR      = sigmao^2*eye(No); % obs noise covariance
 
-nIter = 50;
+nIter = 10;
 
 %% Generate observations
 
-[ obs, truth ] = gen_obs( mod, H, x0, Q, R, T, No );
+[ obs, truth ] = gen_obs( mod, h, x0, sqQ, sqR, T, theta, [] );
 
 %% EM with EnKS2
-R = 10;
-Q = 1*eye(3);
-xb0 = zeros(3,1);
-B = eye(3);
 
-sqB0 = chol(B);
-sqR0 = chol(R);
-sqQ0 = chol(Q);
-
-
-[Xs, xb, sqB, sqQ, sqR, loglik] = EM(xb0, sqB0, sqQ0, sqR0, mod, H, obs, Ne, nIter);
+[Xs, xb, sqB, sqQ, sqR, loglik] = EM(x0, sqB, sqQ, sqR, mod, h, obs, Ne, nIter, theta, []);
 
 %%
 
+figure
 plot(loglik)
+
 %%
 xs = squeeze(mean(Xs, 2));
 

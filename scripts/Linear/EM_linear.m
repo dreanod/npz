@@ -1,3 +1,6 @@
+% Simple EM case to test if algos correctly implemented. The EM is
+% initialized with the true values. 
+
 rng( 'default' )
 clear all
 
@@ -9,35 +12,43 @@ Nx = 3; % size of state
 Ne = 100;
 
 x0 = ones(Nx,1); % background mean
-B = .1 * eye(Nx);
+sqB = .1 * eye(Nx);
 
 % propagation operator
 theta1 = .1; theta2 = .1;
-mod = @(x)  linear_rot(x, theta1, theta2);
+theta = [theta1; theta2];
+mod = @(x, theta)  linear_rot(x, theta(1), theta(2));
 
 % model noise covariance
-Q   = 0.01*eye(3); 
+sqQ   = 0.1*eye(3); 
 
 % obs operator
 H  = [0,1,0]; 
-H = @(x) H * x;
+h = @(x, c) H * x;
 
 sigmao = .1; % obs noise deviation
-R      = sigmao^2*eye(No); % obs noise covariance
+sqR      = sigmao^2*eye(No); % obs noise covariance
+
+nIter = 50;
 
 %% Generate observations
 
-[ obs, truth ] = gen_obs( mod, H, x0, Q, R, T, No );
+[ obs, truth ] = gen_obs( mod, h, x0, sqQ, sqR, T, theta, [] );
 
 %% EM with EnKS2
-sqB = chol(B);
-sqR = chol(R);
-sqQ = chol(Q);
+xb0 = 10 * x0;
+sqQ0 = 10 * sqQ;
+sqB0 = eye(Nx);
+sqR0 = 10 * sqR;
 
-[Xs, l] = EnKS(obs, mod, H, x0, sqB, sqQ, sqR, Ne);
+[Xs, xb_est, sqB_est, sqQ_est, sqR_est, loglik] = EM(xb0, sqB0, sqQ0, sqR0, mod, h, obs, Ne, nIter, theta, []);
 
 %%
+figure
+plot(loglik)
 
+% We should see the log-likelihood increasing.
+%%
 xs = squeeze(mean(Xs, 2));
 
 figure

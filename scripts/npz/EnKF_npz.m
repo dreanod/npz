@@ -1,7 +1,3 @@
-% EM estimation in a simple case. Meant to test that all the algos are
-% correctly implemented.
-% The EM algorithm is initialized with the true values. 
-
 rng( 'default' )
 clear all
 close all
@@ -36,7 +32,7 @@ x0 = log(x0);
 sqQ = diag([sigma_x; sigma_phi]);
 
 Nx = size(x0, 1);
-T  = 30; % nb of time steps
+T  = 150; % nb of time steps
 No = 1;   % size of observations
 
 sigmao = 0.06;           % obs noise deviation, CI of ± 10% around true value
@@ -44,36 +40,37 @@ sqR    = sigmao*eye(No); % obs noise covariance
 H = zeros(1, Nx); H(2) = 1;
 Ne = 100;
 
-npz = @(x, theta) npz_predict2(x, theta);
+npz = @(x, theta) npz_predict(x, theta);
 h   = @(x, c) H * x + c;
-
-nIter = 5; % Number of EM iterations
 
 %% Generate Observations
 
 [obs, truth] = gen_obs(npz, h, x0, sqQ, sqR, T, theta, c);
 
-%% EM with EnKS2
+%% EnKF
 
-% Trying with real parameters
-% Starting parameters around 5 % of true values
-sqB = 0.032 * eye(Nx);
-[Xs, xb, sqB, sqQ, sqR, loglik] = EM(x0, sqB, sqQ, sqR, npz, h, obs, Ne, nIter, theta, c);
+sqB = 0.05 * eye(Nx);
+x0 = x0 * 1.05;
 
-%%
-
-plot(loglik)
+[Xa, Xf, K] = EnKF(obs, npz, h, x0, sqB, sqQ, sqR, Ne, theta, c);
 
 %%
-xs = squeeze(mean(Xs, 2));
 
+xa = squeeze(mean(Xa,2));
+
+%%
 figure
-for i=1:4
-    subplot(5,1,i)
+for i = 1:Nx
+    subplot(4,1,i)
     plot(truth(i,:), 'g-')
     hold on
-    plot(xs(i,:), 'k.')
-    legend('truth', 'EnKS');
+    plot(xa(i,:), 'r.')
+    ylabel(i)
+    legend('truth','EnKF','EnKS');
     hold off
 end
 
+%%
+diff2 = (truth - xa).^2;
+RMSE_EnKS = sum(diff2(:))/numel(diff2);
+disp(['RMSE EnKS', num2str(RMSE_EnKS)])

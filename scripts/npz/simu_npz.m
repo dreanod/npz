@@ -40,37 +40,21 @@ sqR    = sigmao*eye(No); % obs noise covariance
 H = zeros(1, Nx); H(2) = 1;
 Ne = 100;
 
-npz = @(x, theta) npz_predict2(x, theta);
+npz = @(x, theta) npz_predict(x, theta);
 h   = @(x, c) H * x + c;
 
 %% Generate Observations
 
 [obs, truth] = gen_obs(npz, h, x0, sqQ, sqR, T, theta, c);
 
-%% EnKF
+%% Plot observations
 
-sqB = 0.05 * eye(Nx);
-x0 = x0 * 1.05;
-
-[Xs, l] = EnKS(obs, npz, h, x0, sqB, sqQ, sqR, Ne, theta, c);
-%%
-
-xs = squeeze(mean(Xs,2));
-
-%%
-figure
-for i = 1:Nx
-    subplot(4,1,i)
-    plot(truth(i,:), 'g-')
-    hold on
-    plot(xs(i,:), 'r.')
-    ylabel(i)
-    legend('truth','EnKF','EnKS');
-    hold off
-end
-
-%%
-diff2 = (truth - xs).^2;
-RMSE_EnKS = sum(diff2(:))/numel(diff2);
-disp(['RMSE of EnKS: ', num2str(RMSE_EnKS)]);
+figure()
+plot(1:T, exp(obs), '--k')
+hold on
+plot(0:T, exp(truth(1,:)), 'b')
+plot(0:T, exp(truth(2,:)), 'g')
+plot(0:T, exp(truth(3,:)), 'r')
+plot(0:T, exp(truth(4,:)), 'k')
+hold off
 

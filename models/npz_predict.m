@@ -1,12 +1,10 @@
-function [ Y ] = npz_predict(X)
+function [ Y ] = npz_predict(X, theta)
 %NPZ_PREDICT Summary of this function goes here
 %   Detailed explanation goes here
     x = exp(X); % inverse log transformation
-    x(8) = exp(X(8)/(exp(X(8)) + 1)); % inverse logit transformation
     
     y0 = x(1:3);
     phi = x(4);
-    theta = x(5:end);
     
     odefun = @(t, x) npz_f(x, phi, theta);
 
@@ -14,10 +12,7 @@ function [ Y ] = npz_predict(X)
 
     [~, y] = ode45(odefun,tspan,y0);
     y = y(end,:)';
-    y = log(y); % log transformation
-    Y = X;
-    Y(1:3) = y;
-    
+    Y = log([y; phi]);
 end
 
 

@@ -20,7 +20,7 @@ function [l] = likelihood(Xf, obs, h, sqR, c)
         sig = Y * Y' + sqR*sqR';
         sig = .5*(sig + sig');
         siginv = inv(sig);
-        l = l + log(det(sig)) + innov'*siginv*innov;
+        l = l - log(det(sig)) - innov'*siginv*innov;
     end
     l = l/2;
 end
