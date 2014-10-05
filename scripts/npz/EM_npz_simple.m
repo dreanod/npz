@@ -76,4 +76,10 @@ for i=1:4
     legend('truth', 'EnKS');
     hold off
 end
+subplot(5,1,5)
+plot(obs, 'ob')
+hold on
+plot(H * xs + c, 'g')
+legend('Obs','smoothing')
+hold off
 
