@@ -563,6 +563,10 @@
 		"selected_items":
 		[
 			[
+				"clust",
+				"py/cluster.py"
+			],
+			[
 				"chap",
 				"latex/Chapter_2.tex"
 			],
@@ -689,10 +693,6 @@
 			[
 				".m",
 				"m/extract_data.m"
-			],
-			[
-				"clust",
-				"py/clust_tools.py"
 			],
 			[
 				"g",

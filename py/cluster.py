@@ -1,29 +1,23 @@
 import numpy as np
 from sklearn.cluster import MeanShift
+import pandas as pd
+import matplotlib.pyplot as pl
 
-mask = np.load('../data/mask_land.npy')
-chl = np.load('../data/chl_filled.npy')
+df = pd.read_csv('../data/chl_df.csv')
 
-chl_col = chl[~mask, :50]
+## Only consider northern Red Sea
+df_north = df[df.lat > 25]
+df_north = df_north[df_north.lat < 28]
 
-from sklearn.cluster import MeanShift
+## Extract chl values:
+chl = df_north.values[:, 1:-2]
+
+## Fitting MeanShift model
 ms = MeanShift()
-ms.fit(chl_col)
+ms.fit(chl)
 labels = ms.labels_
 
-cluster_centers = ms.cluster_centers_
-labels_unique = np.unique(labels)
-n_clusters_ = len(labels_unique)
+## Plot result
+pl.scatter(df_north.lon, df_north.lat, c=labels)
+pl.show()
 
-print("number of estimated clusters : %d" % n_clusters_)
-
-###############################################################################
-# Plot result
-
-labels_img = ma.zeros(mask.shape)
-labels_img.mask = mask
-labels_img[~mask] = labels
-
-
-import matplotlib.pyplot as pl
-pl.imshow(labels_img)
