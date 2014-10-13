@@ -1,10 +1,11 @@
 function [ Y ] = npz_predict(X, theta)
 %NPZ_PREDICT Summary of this function goes here
 %   Detailed explanation goes here
+    alpha = theta(end);
+    phi = X(4)*alpha;
     x = exp(X); % inverse log transformation
-    
+    phi = exp(phi);
     y0 = x(1:3);
-    phi = x(4);
     
     odefun = @(t, x) npz_f(x, phi, theta);
 

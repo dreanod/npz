@@ -17,7 +17,8 @@ EP    = 0.02;
 EZ    = 0.01;
 EP_   = 0.1;
 EZ_   = 0.1;
-THETA = [MU; K; G; GAMMA; EP; EZ; EP_; EZ_];
+alpha = .7;
+THETA = [MU; K; G; GAMMA; EP; EZ; EP_; EZ_; alpha];
 
 % Observation parameter is fixed
 C = 2;
@@ -52,7 +53,7 @@ nIter = 30; % Number of EM iterations
 % initialization of EM
 xb0 = log(2 * X0);
 sqB0 = 0.06 * eye(Nx);
-sqQ0 = 1.1 * sqQ;
+sqQ0 = 2 * sqQ;
 sqR0 = 1.1 * sqR;
 
 %% Generate Observations

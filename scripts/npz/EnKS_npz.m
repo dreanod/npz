@@ -13,21 +13,23 @@ ep    = 0.02;
 ez    = 0.01;
 ep_   = 0.1;
 ez_   = 0.1;
-theta = [mu; k; G; gamma; ep; ez; ep_; ez_];
+
+
+alpha = .7;
+theta = [mu; k; G; gamma; ep; ez; ep_; ez_; alpha];
 
 % Observation parameter is fixed
 c = 2;
-
 % phi evolve with a random walk model
 phi0 = 0.1;
-sigma_phi = 0.05; % CI of ±8% around previous value.
+sigma_phi = 0.06; % CI of ±8% around previous value.
 
 % Initial NPZ variables
 N0 = .1;
 P0 = .1;
 Z0 = .01;
 x0 = [N0; P0; Z0; phi0];
-sigma_x = 0.032 * ones(3,1); % CI of ± 5% around model forecast
+sigma_x = 0.06 * ones(3,1); % CI of ± 5% around model forecast
 x0 = log(x0);
 sqQ = diag([sigma_x; sigma_phi]);
 
