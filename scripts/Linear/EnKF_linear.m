@@ -14,25 +14,30 @@ sqB = .1 * eye(Nx);
 % propagation operator
 theta1 = .1; theta2 = .1;
 theta = [theta1; theta2];
+Ntheta = size(theta, 1);
 mod = @(x, theta)  linear_rot(x, theta(1), theta(2));
 
 % model noise covariance
-sqQ   = 0.1*eye(3); 
+sqQ   = .1*eye(3); 
 
 % obs operator
-H  = [0,1,0]; 
+H  = [1,1,1]; 
 h = @(x, c) H * x;
 
 sigmao = .1; % obs noise deviation
-sqR      = sigmao^2*eye(No); % obs noise covariance
+sqR    = sigmao*eye(No); % obs noise covariance
 
+% initialize EnKF
+xb0 = x0;
+theta0 = theta * 5;
+sqTheta = .1 * eye(Ntheta);
 %% Generate observations
 
 [ obs, truth ] = gen_obs( mod, h, x0, sqQ, sqR, T, theta, [] );
 
 %% EM with EnKS2
 
-[Xa, Xf, ~] = EnKF(obs, mod, h, x0, sqB, sqQ, sqR, Ne, theta, []);
+[Xa, Xf, ~, theta] = EnKF(obs, mod, h, xb0, sqB, sqQ, sqR, Ne, theta0, sqTheta, []);
 
 %%
 

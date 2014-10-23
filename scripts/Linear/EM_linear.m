@@ -17,6 +17,7 @@ sqB = .1 * eye(Nx);
 % propagation operator
 theta1 = .1; theta2 = .1;
 theta = [theta1; theta2];
+Ntheta = size(theta, 1);
 mod = @(x, theta)  linear_rot(x, theta(1), theta(2));
 
 % model noise covariance
@@ -30,6 +31,8 @@ sigmao = .1; % obs noise deviation
 sqR      = sigmao^2*eye(No); % obs noise covariance
 
 nIter = 50;
+theta0 = theta * 5;
+sqTheta = 0.1 * eye(Ntheta);
 
 %% Generate observations
 
@@ -41,7 +44,7 @@ sqQ0 = 10 * sqQ;
 sqB0 = eye(Nx);
 sqR0 = 10 * sqR;
 
-[Xs, xb_est, sqB_est, sqQ_est, sqR_est, loglik] = EM(xb0, sqB0, sqQ0, sqR0, mod, h, obs, Ne, nIter, theta, []);
+[Xs, xb_est, sqB_est, sqQ_est, sqR_est, loglik, theta] = EM(xb0, sqB0, sqQ0, sqR0, mod, h, obs, Ne, nIter, theta0, sqTheta, []);
 
 %%
 figure

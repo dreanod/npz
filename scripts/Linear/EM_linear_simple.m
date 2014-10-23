@@ -17,6 +17,7 @@ sqB = .1 * eye(Nx);
 % propagation operator
 theta1 = .1; theta2 = .1;
 theta = [theta1; theta2];
+Ntheta = size(theta, 1);
 mod = @(x, theta)  linear_rot(x, theta(1), theta(2));
 
 % model noise covariance
@@ -30,6 +31,8 @@ sigmao = .1; % obs noise deviation
 sqR      = sigmao^2*eye(No); % obs noise covariance
 
 nIter = 10;
+theta0 = theta * 5;
+sqTheta = 0.1 * eye(Ntheta);
 
 %% Generate observations
 
@@ -37,7 +40,7 @@ nIter = 10;
 
 %% EM with EnKS2
 
-[Xs, xb, sqB, sqQ, sqR, loglik] = EM(x0, sqB, sqQ, sqR, mod, h, obs, Ne, nIter, theta, []);
+[Xs, xb, sqB, sqQ, sqR, loglik, theta] = EM(x0, sqB, sqQ, sqR, mod, h, obs, Ne, nIter, theta0, sqTheta, []);
 
 %%
 

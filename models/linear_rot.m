@@ -9,7 +9,7 @@ function [ y ] = linear_rot( x, theta1, theta2 )
           [0, cos(theta2), -sin(theta2)]
           [0, sin(theta2),  cos(theta2)]];
 
-    M = R1 * R2;
+    M =R1 * R2;
     y = M * x;
 end
 

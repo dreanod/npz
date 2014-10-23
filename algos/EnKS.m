@@ -1,10 +1,10 @@
-function [Xs, l] = EnKS(obs, mod, H, x0, sqB, sqQ, sqR, Ne, theta, c)
+function [Xs, l, theta] = EnKS(obs, mod, H, x0, sqB, sqQ, sqR, Ne, theta, sqTheta, c)
 %ENKS Summary of this function goes here
 %   Detailed explanation goes here
     
     % EnKF
-    [Xa, Xf, ~] = EnKF(obs, mod, H, x0, sqB, sqQ, sqR, Ne, theta, c);
-        
+    [Xa, Xf, ~, theta] = EnKF(obs, mod, H, x0, sqB, sqQ, sqR, Ne, theta, sqTheta, c);
+            
     [Nx, Ne, T] = size(Xf);
     
     % likelihood

@@ -4,48 +4,65 @@ close all
 
 %% Simu parameters
 
-% NPZ parameters are fixed.
-mu    = 2.0;
-k     = 0.5;
+%------------- True Model parameters -------------------%
+
+% Unknown parameters
+MU    = 2.0;
+K     = 0.5;
 G     = 1.0;
-gamma = 0.9;
-ep    = 0.02;
-ez    = 0.01;
-ep_   = 0.1;
-ez_   = 0.1;
-theta = [mu; k; G; gamma; ep; ez; ep_; ez_];
+GAMMA = 0.9;
+EP    = 0.02;
+EZ    = 0.01;
+EP_   = 0.1;
+EZ_   = 0.1;
+THETA = [MU; K; G; GAMMA; EP; EZ; EP_; EZ_];
+theta = transform_state(THETA);
 
-% Observation parameter is fixed
-c = 2;
+% Known parameters
+alpha_phi = .7;
 
-% phi evolve with a random walk model
+%------------- True Observations parameters ---------------%
+
+% Known parameters
+C = 2;
+
+%------------- True State initialization ------------%
+
 phi0 = 0.1;
-sigma_phi = 0.05; % CI of ±8% around previous value.
-
-% Initial NPZ variables
 N0 = .1;
 P0 = .1;
 Z0 = .01;
-x0 = [N0; P0; Z0; phi0];
+x0 = [log(N0); log(P0); log(Z0); phi0];
+
+%-------------- Model function ----------------------------%
+
+npz = @(x, theta, alpha) npz_predict2(x, theta, alpha);
+Nx = size(x0, 1);
+
+%-------------- Observation function ----------------------%
+
+H = zeros(1, Nx); H(2) = 1;
+h   = @(x, c) H * x + C;
+No = 1;   % size of observation vector
+
+%-------------- True Model Noise -----------------------%
+
+sigma_phi = 0.05; % phi model noise
 sigma_x = 0.032 * ones(3,1); % CI of ± 5% around model forecast
-x0 = log(x0);
 sqQ = diag([sigma_x; sigma_phi]);
 
-Nx = size(x0, 1);
-T  = 150; % nb of time steps
-No = 1;   % size of observations
+%-------------- True Observation noise ------------------%
 
 sigmao = 0.06;           % obs noise deviation, CI of ± 10% around true value
 sqR    = sigmao*eye(No); % obs noise covariance
-H = zeros(1, Nx); H(2) = 1;
-Ne = 100;
 
-npz = @(x, theta) npz_predict(x, theta);
-h   = @(x, c) H * x + c;
+%------------- Simulation parameters ---------------------%
+
+T  = 30; % nb of time steps
 
 %% Generate Observations
 
-[obs, truth] = gen_obs(npz, h, x0, sqQ, sqR, T, theta, c);
+[obs, truth] = gen_obs(npz, h, x0, sqQ, sqR, T, theta, alpha_phi, C);
 
 %% Plot observations
 
@@ -55,6 +72,6 @@ hold on
 plot(0:T, exp(truth(1,:)), 'b')
 plot(0:T, exp(truth(2,:)), 'g')
 plot(0:T, exp(truth(3,:)), 'r')
-plot(0:T, exp(truth(4,:)), 'k')
+plot(0:T, truth(4,:), 'k')
 hold off
 

@@ -1,5 +1,5 @@
-function [ Xs, xb, sqB, sqQ, sqR, loglik ] = ...
-                EM(xb0, sqB0, sqQ0, sqR0, mod, H, obs, Ne, nIter,theta,c)
+function [ Xs, xb, sqB, sqQ, sqR, loglik, theta ] = ...
+                EM(xb0, sqB0, sqQ0, sqR0, mod, H, obs, Ne, nIter,theta,sqTheta,c)
 %EM Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -13,7 +13,7 @@ function [ Xs, xb, sqB, sqQ, sqR, loglik ] = ...
     for k=1:nIter
 
         % E-step      
-        [Xs, l] = EnKS(obs, mod, H, xb, sqB, sqQ, sqR, Ne, theta, c);
+        [Xs, l, theta] = EnKS(obs, mod, H, xb, sqB, sqQ, sqR, Ne, theta, sqTheta, c);
         loglik(k) = l;
         
         % M-step

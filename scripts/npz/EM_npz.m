@@ -8,7 +8,9 @@ close all
 
 %% Simu parameters
 
-% NPZ parameters are fixed.
+%------------- Model parameters -------------------%
+
+% Unknown parameters: True values
 MU    = 2.0;
 K     = 0.5;
 G     = 1.0;
@@ -17,21 +19,30 @@ EP    = 0.02;
 EZ    = 0.01;
 EP_   = 0.1;
 EZ_   = 0.1;
-alpha = .7;
-THETA = [MU; K; G; GAMMA; EP; EZ; EP_; EZ_; alpha];
+THETA = [MU; K; G; GAMMA; EP; EZ; EP_; EZ_];
+theta = transform_state(THETA);
 
-% Observation parameter is fixed
+% Known parameters
+alpha_phi = .7;
+
+%------------- Observations parameters ---------------%
+
+% Known parameters
 C = 2;
 
-% phi evolve with a random walk model
-PHI0 = 0.1;
-sigma_phi = 0.05; % CI of ±8% around previous value.
+%------------- State Variables -----------------%
 
-% Initial NPZ variables
+% Initial values: True values
+phi0 = 0.1;
+sigma_phi = 0.05; % phi model noise
 N0 = .1;
 P0 = .1;
 Z0 = .01;
-X0 = [N0; P0; Z0; PHI0];
+X0 = [N0; P0; Z0; phi0];
+
+% Initial NPZ variables
+
+
 sigma_x = 0.032 * ones(3,1); % CI of ± 5% around model forecast
 x0 = log(X0);
 sqQ = diag([sigma_x; sigma_phi]);
@@ -56,13 +67,15 @@ sqB0 = 0.2 * eye(Nx); % ±30%
 sqQ0 = 2 * sqQ;
 sqR0 = 2 * sqR;
 
+theta0 = log(2 * THETA);
+sqTheta = 0.01 * eye(Ntheta);
 %% Generate Observations
 
 [obs, truth] = gen_obs(npz, h, x0, sqQ, sqR, T, THETA, C);
 
 %% EnKS without EM learning
 
-[Xs_EnKS, ~] = EnKS(obs, npz, h, xb0, sqB0, sqQ0, sqR0, Ne, THETA, C);
+[Xs_EnKS, ~, theta] = EnKS(obs, npz, h, xb0, sqB0, sqQ0, sqR0, Ne, theta, sqTheta, C);
 
 %% EM with EnKS2
 
