@@ -20,8 +20,8 @@ THETA = [MU; K; G; GAMMA; EP; EZ; EP_; EZ_];
 theta = transform_state(THETA);
 
 % First Guess
-theta0 = transform_state(2 * THETA);
-sqTheta = 0.06 * ones(size(theta, 1)); 
+theta0 = transform_state(THETA);
+sqTheta = 0.006 * ones(size(theta, 1)); 
 
 % Known Model Parameters --------------------------------------------------
 
@@ -34,18 +34,23 @@ alpha = .7;
 C = 2;
 c = log(C);
 
-% True State Initialization -----------------------------------------------
+% State Initialization ---------------------------------------------------
 
+% Truth
 phi0 = 0.1;
 N0 = .1;
 P0 = .1;
 Z0 = .01;
 x0 = [log(N0); log(P0); log(Z0); phi0];
+Nx = size(x0, 1); % nb of state
+
+% First Guess
+sqB = 0.05 * eye(Nx);
+x0 = x0 * 1.05;
 
 % Model function ----------------------------------------------------------
 
 npz = @(x, theta, alpha) npz_predict2(x, theta, alpha);
-Nx = size(x0, 1); % nb of state
 
 % Observation function ----------------------------------------------------
 
@@ -77,9 +82,6 @@ Ne = 100; % Ensemble size
 [obs, truth] = gen_obs(npz, h, x0, sqQ, sqR, T, theta, alpha, c);
 
 %% EnKF
-
-sqB = 0.05 * eye(Nx);
-x0 = x0 * 1.05;
 
 [Xa, Xf, K, theta] = EnKF(obs, npz, h, x0, sqB, sqQ, sqR, Ne, theta0, sqTheta, alpha, c);
 
