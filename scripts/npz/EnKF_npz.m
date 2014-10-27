@@ -4,55 +4,84 @@ close all
 
 %% Simu parameters
 
-% NPZ parameters are fixed.
-mu    = 2.0;
-k     = 0.5;
+% Unknown Model Parameters ------------------------------------------------
+
+% NPZ parameters
+MU    = 2.0;
+K     = 0.5;
 G     = 1.0;
-gamma = 0.9;
-ep    = 0.02;
-ez    = 0.01;
-ep_   = 0.1;
-ez_   = 0.1;
-theta = [mu; k; G; gamma; ep; ez; ep_; ez_];
+GAMMA = 0.9;
+EP    = 0.02;
+EZ    = 0.01;
+EP_   = 0.1;
+EZ_   = 0.1;
 
-% Observation parameter is fixed
-c = 2;
+THETA = [MU; K; G; GAMMA; EP; EZ; EP_; EZ_];
+theta = transform_state(THETA);
 
-% phi evolve with a random walk model
+% First Guess
+theta0 = transform_state(2 * THETA);
+sqTheta = 0.06 * ones(size(theta, 1)); 
+
+% Known Model Parameters --------------------------------------------------
+
+% Phi Auto-Regressive Coefficient
+alpha = .7;
+
+% Known Observations Parameters -------------------------------------------
+
+% Conversion rate phytoplankton -> Chl
+C = 2;
+c = log(C);
+
+% True State Initialization -----------------------------------------------
+
 phi0 = 0.1;
-sigma_phi = 0.05; % CI of ±8% around previous value.
-
-% Initial NPZ variables
 N0 = .1;
 P0 = .1;
 Z0 = .01;
-x0 = [N0; P0; Z0; phi0];
+x0 = [log(N0); log(P0); log(Z0); phi0];
+
+% Model function ----------------------------------------------------------
+
+npz = @(x, theta, alpha) npz_predict2(x, theta, alpha);
+Nx = size(x0, 1); % nb of state
+
+% Observation function ----------------------------------------------------
+
+H = zeros(1, Nx); H(2) = 1;
+h   = @(x, c) H * x + c;
+No = 1;   % nb of obs
+
+% True Model Noise --------------------------------------------------------
+
+sigma_phi = 0.05; % phi model noise
 sigma_x = 0.032 * ones(3,1); % CI of ± 5% around model forecast
-x0 = log(x0);
 sqQ = diag([sigma_x; sigma_phi]);
 
-Nx = size(x0, 1);
-T  = 150; % nb of time steps
-No = 1;   % size of observations
+% True Observation noise --------------------------------------------------
 
 sigmao = 0.06;           % obs noise deviation, CI of ± 10% around true value
 sqR    = sigmao*eye(No); % obs noise covariance
-H = zeros(1, Nx); H(2) = 1;
-Ne = 100;
 
-npz = @(x, theta) npz_predict(x, theta);
-h   = @(x, c) H * x + c;
+% Simulation parameters ---------------------------------------------------
+
+T  = 30; % nb of time steps
+
+% Ensemble parameters -----------------------------------------------------
+
+Ne = 100; % Ensemble size
 
 %% Generate Observations
 
-[obs, truth] = gen_obs(npz, h, x0, sqQ, sqR, T, theta, c);
+[obs, truth] = gen_obs(npz, h, x0, sqQ, sqR, T, theta, alpha, c);
 
 %% EnKF
 
 sqB = 0.05 * eye(Nx);
 x0 = x0 * 1.05;
 
-[Xa, Xf, K] = EnKF(obs, npz, h, x0, sqB, sqQ, sqR, Ne, theta, c);
+[Xa, Xf, K, theta] = EnKF(obs, npz, h, x0, sqB, sqQ, sqR, Ne, theta0, sqTheta, alpha, c);
 
 %%
 
