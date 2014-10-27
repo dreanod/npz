@@ -21,12 +21,11 @@ theta = transform_state(THETA);
 % Known parameters
 alpha_phi = .7;
 
-%------------- True Observations parameters ---------------%
+% True Observations parameters --------------------------------------------
 
-% Known parameters
-C = 2;
+C = 2; % known
 
-%------------- True State initialization ------------%
+% True State initialization ------------%
 
 phi0 = 0.1;
 N0 = .1;
