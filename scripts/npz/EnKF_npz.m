@@ -10,7 +10,7 @@ config_npz
 
 %% EnKF
 
-[Xa, Xf, K, ~] = EnKF(obs, mod, h, x0, sqB, sqQ, sqR, Ne, [], [], theta, c);
+[Xa, Xf, K] = EnKF(obs, mod, h, xb, sqB, sqQ, sqR, Ne);
 
 %%
 

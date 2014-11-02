@@ -11,8 +11,7 @@ EZ    = 0.01;
 EP_   = 0.1;
 EZ_   = 0.1;
 alpha = .7; % Phi Auto-Regressive Coefficient
-THETA = [MU; K; G; GAMMA; EP; EZ; EP_; EZ_];
-theta = [transform_state(THETA); alpha];
+theta = [MU; K; G; GAMMA; EP; EZ; EP_; EZ_];
 
 % Observations Parameters -------------------------------------------
 
@@ -37,12 +36,12 @@ x0 = x0 * 1.05;
 
 % Model function ----------------------------------------------------------
 
-mod = @(x, theta, alpha) npz(x, alpha);
+mod = @(x) npz(x, theta, alpha);
 
 % Observation function ----------------------------------------------------
 
 H = zeros(1, Nx); H(2) = 1;
-h = @(x, c) H * x + c;
+h = @(x) H * x + c;
 No = 1;   % nb of obs
 
 % True Model Noise --------------------------------------------------------
