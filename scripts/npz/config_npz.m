@@ -37,7 +37,7 @@ x0 = x0 * 1.05;
 
 % Model function ----------------------------------------------------------
 
-npz = @(x, theta, alpha) npz_predict2(x, alpha(1:end-1), alpha(end));
+mod = @(x, theta, alpha) npz(x, alpha);
 
 % Observation function ----------------------------------------------------
 

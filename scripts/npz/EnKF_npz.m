@@ -6,11 +6,11 @@ config_npz
 
 %% Generate Observations
 
-[obs, truth] = gen_obs(npz, h, x0, sqQ, sqR, T, [], theta, c);
+[obs, truth] = gen_obs(mod, h, x0, sqQ, sqR, T, [], theta, c);
 
 %% EnKF
 
-[Xa, Xf, K, ~] = EnKF(obs, npz, h, x0, sqB, sqQ, sqR, Ne, [], [], theta, c);
+[Xa, Xf, K, ~] = EnKF(obs, mod, h, x0, sqB, sqQ, sqR, Ne, [], [], theta, c);
 
 %%
 

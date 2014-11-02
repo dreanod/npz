@@ -1,13 +1,11 @@
-function [ y ] = npz_predict(x, theta)
+function [ y ] = npz_predict(x, phi, theta)
 %NPZ_PREDICT Summary of this function goes here
 %   Detailed explanation goes here
-    phi = x(4);
-    y0 = x(1:3);
 
     odefun = @(t, x) npz_f(x, phi, theta);
     tspan = 0:1;
 
-    [~, y] = ode45(odefun,tspan,y0);
+    [~, y] = ode45(odefun, tspan, x);
     y = y(end,:)';
 end
 
