@@ -10,7 +10,8 @@ close all
 
 %------------- Model parameters -------------------%
 
-% Unknown parameters: True values
+% Known parameters
+alpha_phi = .7;
 MU    = 2.0;
 K     = 0.5;
 G     = 1.0;
@@ -21,9 +22,7 @@ EP_   = 0.1;
 EZ_   = 0.1;
 THETA = [MU; K; G; GAMMA; EP; EZ; EP_; EZ_];
 theta = transform_state(THETA);
-
-% Known parameters
-alpha_phi = .7;
+ALPHA = [THETA; alpha_phi];
 
 %------------- Observations parameters ---------------%
 
@@ -41,8 +40,6 @@ Z0 = .01;
 X0 = [N0; P0; Z0; phi0];
 
 % Initial NPZ variables
-
-
 sigma_x = 0.032 * ones(3,1); % CI of ± 5% around model forecast
 x0 = log(X0);
 sqQ = diag([sigma_x; sigma_phi]);
