@@ -1,5 +1,6 @@
-% Unknown Model Parameters ------------------------------------------------
+% Model Parameters ------------------------------------------------
 
+% Known --------------------
 % NPZ parameters
 MU    = 2.0;
 K     = 0.5;
@@ -9,22 +10,14 @@ EP    = 0.02;
 EZ    = 0.01;
 EP_   = 0.1;
 EZ_   = 0.1;
-
+alpha = .7; % Phi Auto-Regressive Coefficient
 THETA = [MU; K; G; GAMMA; EP; EZ; EP_; EZ_];
-theta = transform_state(THETA);
+theta = [transform_state(THETA); alpha];
 
-% First Guess
-theta0 = transform_state(THETA);
-sqTheta = 0.006 * ones(size(theta, 1)); 
+% Observations Parameters -------------------------------------------
 
-% Known Model Parameters --------------------------------------------------
-
-% Phi Auto-Regressive Coefficient
-alpha = .7;
-
-% Known Observations Parameters -------------------------------------------
-
-% Conversion rate phytoplankton -> Chl
+% Known ----------------------
+% Conversion rate (phytoplankton -> Chl)
 C = 2;
 c = log(C);
 
@@ -44,12 +37,12 @@ x0 = x0 * 1.05;
 
 % Model function ----------------------------------------------------------
 
-npz = @(x, theta, alpha) npz_predict2(x, theta, alpha);
+npz = @(x, theta, alpha) npz_predict2(x, alpha(1:end-1), alpha(end));
 
 % Observation function ----------------------------------------------------
 
 H = zeros(1, Nx); H(2) = 1;
-h   = @(x, c) H * x + c;
+h = @(x, c) H * x + c;
 No = 1;   % nb of obs
 
 % True Model Noise --------------------------------------------------------
