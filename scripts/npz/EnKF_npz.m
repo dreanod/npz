@@ -31,4 +31,4 @@ end
 %%
 diff2 = (truth - xa).^2;
 RMSE_EnKS = sum(diff2(:))/numel(diff2);
-disp(['RMSE EnKS', num2str(RMSE_EnKS)])
+disp(['RMSE EnKS: ', num2str(RMSE_EnKS)])
