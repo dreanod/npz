@@ -32,7 +32,7 @@ Nx = size(x0, 1); % nb of state
 
 % First Guess
 sqB = 0.05 * eye(Nx);
-x0 = x0 * 1.05;
+xb = x0 * 1.05;
 
 % Model function ----------------------------------------------------------
 
@@ -46,8 +46,8 @@ No = 1;   % nb of obs
 
 % True Model Noise --------------------------------------------------------
 
-sigma_phi = 0.05; % phi model noise
-sigma_x = 0.032 * ones(3,1); % CI of ± 5% around model forecast
+sigma_phi = 0.01; % phi model noise
+sigma_x = 0.001 * ones(3,1); % CI of ± 5% around model forecast
 sqQ = diag([sigma_x; sigma_phi]);
 
 % True Observation noise --------------------------------------------------
