@@ -1,4 +1,4 @@
-function [l] = likelihood(Xf, obs, h, sqR, c)
+function [l] = likelihood(Xf, obs, h, sqR)
 %LIKELIHOOD Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -9,9 +9,9 @@ function [l] = likelihood(Xf, obs, h, sqR, c)
     x = mean(Xf, 2);
     Y = zeros(No, Ne);
     for t=1:T
-        innov = obs(t) - h(x(:,t), c);
+        innov = obs(t) - h(x(:,t));
         for i = 1:Ne
-            Y(:, i) = h(Xf(:, i, t), c);
+            Y(:, i) = h(Xf(:, i, t));
         end
         Ymean = mean(Y, 2);
         for i = 1:Ne
