@@ -226,6 +226,9 @@
 	},
 	"file_history":
 	[
+		"/Users/denis/Dropbox/repos/npz/latex/researchSummary.log",
+		"/Users/denis/Dropbox/repos/npz/latex/researchSummary.aux",
+		"/Users/denis/Dropbox/repos/npz/latex/researchSummary.tex",
 		"/Users/denis/Dropbox/repos/npz/README.md",
 		"/Users/denis/Dropbox/repos/npz/py/cluster2.py",
 		"/Users/denis/Dropbox/repos/npz/r/cluster.r",
@@ -350,10 +353,7 @@
 		"/Users/denis/Dropbox/thesis/data/chl/seawifs/daily/red_sea/1_extract_region.py",
 		"/Users/denis/Dropbox/repos/phd/bayesian-inversion-of-npz-model/npy/mask_land.npy",
 		"/Users/denis/Dropbox/thesis/projects/current_projects/chl_red_sea_clust/src/gmm1.py",
-		"/Users/denis/Dropbox/thesis/data/tools/h4h5tools-2.2.2/README.txt",
-		"/Users/denis/Dropbox/repos/phd/bayesian-inversion-of-npz-model/clean_workspace.py",
-		"/Users/denis/Dropbox/repos/phd/bayesian-inversion-of-npz-model/latex/Bayesian_NPZ.bib",
-		"/Users/denis/Dropbox/repos/phd/bayesian-inversion-of-npz-model/latex/Bayesian NPZ.bib"
+		"/Users/denis/Dropbox/thesis/data/tools/h4h5tools-2.2.2/README.txt"
 	],
 	"find":
 	{
@@ -562,6 +562,10 @@
 		"height": 0.0,
 		"selected_items":
 		[
+			[
+				"resea",
+				"latex/researchSummary.tex"
+			],
 			[
 				"rese",
 				"latex/researchSummary.tex"

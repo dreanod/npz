@@ -28,6 +28,26 @@
 
   \section{Context}
 
+  \paragraph{Objectives:}
+
+  Here I want to predict the nutrient flux because it can give us an idea about new production. This amount of new production is difficult to estimate without data at high temporal resolution with existing methods [aqaba paper]. Therefore if there is a method that allows us to do that just using satellite data that would be great.
+
+  \paragraph{Data:}
+
+  I clustered the red sea into 8 provinces bases on monthly chl patterns. [cluster figure] I want interested in the cluster nb ? during winter 1999-2000 because there is an important bloom in this region. I averaged daily SeaWifs data from [] to [] in the given cluster, giving me the following time series [figure], that is to say [] nb of measurements.  
+
+
+  \begin{figure}[ht]
+  \centering
+    \includegraphics[scale=.3]{./clusters.png}
+  \caption{Result of clustering. We are interested in the red region.}
+  \end{figure}
+
+
+  \paragraph{Box model:}
+
+  We assume that a box model or 0d model represents the mixed layer in the cluster region we are interested in, and futhermore that there is no exchange with the neighboring regions and that the input of nutrient just come from the deep sea. We only model the phytoplankton, the nutrient concentration (we assume that the nitrate is the limiting nutrient), and the grazing pressure through a zooplankton concentration. A certain part of the zooplankton and phytoplankton is assumed to be lost by sinking, whereas a stochastic term models a flux of nutrient that diffuse to the mixed layer from the deep water. This is that term that we are interested in estimating.
+
   \paragraph{NPZ model:}
 
   The NPZ model is the simplest meaningful model for the phytoplankton
@@ -55,16 +75,6 @@
     + \textcolor{red}{\varepsilon_ZZ} 
     + \Phi_N(t).
   \end{IEEEeqnarray}
-
-
-
-
-
-
-
-
-
-
 
 
   \section{Statistical modeling}
@@ -131,7 +141,14 @@
 
 
 
+\section{EM methodology}
 
+
+
+\section{Case where $\theta$ is known}
+
+
+\section{Case where $\theta$ is unknown}
 
 
 
