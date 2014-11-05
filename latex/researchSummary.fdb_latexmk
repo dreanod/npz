@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1415104421 "researchSummary.tex" "researchSummary.pdf" "researchSummary" 1415104422
+["pdflatex"] 1415182965 "researchSummary.tex" "researchSummary.pdf" "researchSummary" 1415182966
   "/usr/local/texlive/2013/texmf-dist/tex/context/base/supp-pdf.mkii" 1337017135 71627 94eb9990bed73c364d7f53f960cc8c5b ""
   "/usr/local/texlive/2013/texmf-dist/tex/generic/ifxetex/ifxetex.sty" 1284331290 1458 43ab4710dc82f3edeabecd0d099626b2 ""
   "/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/etexcmds.sty" 1335995445 7612 c47308d923ec19888707b0f1792b326a ""
@@ -39,9 +39,10 @@
   "/usr/local/texlive/2013/texmf-dist/tex/latex/pdftex-def/pdftex.def" 1306616590 55368 3c8a0d99822330f2dfabc0dfb09ce897 ""
   "/usr/local/texlive/2013/texmf-dist/tex/latex/setspace/setspace.sty" 1324344192 22913 a27d7908fc6f0385466454a966a316eb ""
   "BHM3.jpg" 1395937764 46987 a283c54bd9ce8a00bd41cfb0aff090bd ""
+  "chl_ts.png" 1415182765 42287 c0057cdda87c7d7b5efcc23e93a55c86 ""
   "clusters.png" 1415104140 41460 8b296da9649217c70aa88367c4159a65 ""
-  "researchSummary.aux" 1415104422 1093 755e2e04e9dae4dc7ce56914ebd6e372 ""
-  "researchSummary.tex" 1415104420 5475 90a698f30ca8d92a5db349394af63b1e ""
+  "researchSummary.aux" 1415182965 1264 76e3dbf43cfc72a5c1500b2d0298df31 ""
+  "researchSummary.tex" 1415182963 5671 6ecbbd549c392021457e38192302a2a0 ""
   (generated)
   "researchSummary.pdf"
   "researchSummary.log"
