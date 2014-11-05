@@ -55,7 +55,7 @@ No = 1;   % nb of obs
 % True Model Noise --------------------------------------------------------
 
 sigma_phi = 0.0005; % phi model noise
-sigma_x = 0.000032 * ones(3,1); % CI of ± 5% around model forecast
+sigma_x = 0.032 * ones(3,1); % CI of ± 5% around model forecast
 sqQ = diag([sigma_x; sigma_phi]);
 
 % True Observation noise --------------------------------------------------
