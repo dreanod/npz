@@ -24,7 +24,7 @@ for i = 1:Nx
     hold on
     plot(xa(i,:), 'r.')
     ylabel(i)
-    legend('truth','EnKF','EnKS');
+    legend('truth','EnKF');
     hold off
 end
 
