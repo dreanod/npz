@@ -1,4 +1,4 @@
-function [Xa, Xf, K, theta] = EnKF(obs, f, h, xb, sqB, sqQ, sqR, Ne, thetab, sqTheta, alpha, c)
+function [Xa, Xf, K, theta] = EnKF(obs, f, h, xb, sqB, sqQ, sqR, Ne, thetab, sqTheta, c)
 %ENKF Summary of this function goes here
 %   Detailed explanation goes here
     Nx = size(xb, 1);
@@ -33,7 +33,7 @@ function [Xa, Xf, K, theta] = EnKF(obs, f, h, xb, sqB, sqQ, sqR, Ne, thetab, sqT
         Z = sqR * randn(No, Ne); % measure noise
         
         for i = 1:Ne
-            X(:, i) = f(X(:, i), Theta(:,i), alpha) + W(:, i);
+            X(:, i) = f(X(:, i), Theta(:,i)) + W(:, i);
             Y(:, i) = h(X(:, i), c) + Z(:, i);
         end
         Xf(:,:,t) = X;

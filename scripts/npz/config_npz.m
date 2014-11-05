@@ -14,6 +14,10 @@ EZ_   = 0.1;
 THETA = [MU; K; G; GAMMA; EP; EZ; EP_; EZ_];
 theta = transform_state(THETA);
 
+% First guess -----------------
+theta0 = theta;
+sqTheta = 0.06 * eye(8); 
+
 % Known Model Parameters --------------------------------------------------
 
 % Phi Auto-Regressive Coefficient
@@ -32,6 +36,10 @@ N0 = .1;
 P0 = .1;
 Z0 = .01;
 x0 = [log(N0); log(P0); log(Z0); phi0];
+
+% First guess -------------
+x0b = x0;
+sqB = 0.06 * eye(4);
 
 % Model function ----------------------------------------------------------
 
@@ -58,3 +66,7 @@ sqR    = sigmao*eye(No); % obs noise covariance
 % Simulation parameters ---------------------------------------------------
 
 T  = 30; % nb of time steps
+
+% EnKS/KS parameters ------------------------------------------------------
+
+Ne = 100;
