@@ -7,4 +7,3 @@ function [ X ] = itransform_state( x )
     X = exp(x);
     X(4) = GAMMA;
 end
-

@@ -6,7 +6,7 @@ config_npz
 
 %% Generate Observations
 
-[obs, truth] = gen_obs(npz, h, x0, sqQ, sqR, T, theta, alpha, C);
+[obs, truth] = gen_obs(npz, h, x0, sqQ, sqR, T, theta, C);
 
 %% Plot observations
 

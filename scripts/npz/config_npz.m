@@ -35,7 +35,7 @@ x0 = [log(N0); log(P0); log(Z0); phi0];
 
 % Model function ----------------------------------------------------------
 
-npz = @(x, theta, alpha) npz(x, theta);
+npz = @(x, theta) npz(x, theta, alpha);
 Nx = size(x0, 1); % nb of state
 
 % Observation function ----------------------------------------------------

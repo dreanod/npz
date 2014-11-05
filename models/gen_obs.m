@@ -1,4 +1,4 @@
-function [obs, truth] = gen_obs(mod, h, x0, sqQ, sqR, T, theta, alpha, c)
+function [obs, truth] = gen_obs(mod, h, x0, sqQ, sqR, T, theta, c)
 %GEN_OBS Generate observations from the models
 %   mod: function for the model of the form X_t = mod(X_{t-1}, theta,
 %   alpha)
@@ -21,7 +21,7 @@ function [obs, truth] = gen_obs(mod, h, x0, sqQ, sqR, T, theta, alpha, c)
     obs = zeros([No, T]);
 
     for t = 1:T
-        x = mod(x, theta, alpha) + sqQ * randn([Nx, 1]);
+        x = mod(x, theta) + sqQ * randn([Nx, 1]);
         y = h(x, c) + sqR * randn([No, 1]);
 
         truth(:, t + 1) = x; 
