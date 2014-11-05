@@ -27,7 +27,6 @@ function [Xa, Xf, K, theta] = EnKF(obs, f, h, xb, sqB, sqQ, sqR, Ne, thetab, sqT
     end
 
     for t=1:T
-        
         % Forecast
         W = sqQ * randn(Nx, Ne); % model noise
         Z = sqR * randn(No, Ne); % measure noise

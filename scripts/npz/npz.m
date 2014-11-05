@@ -6,7 +6,6 @@ function [ y ] = npz(state, theta, alpha)
     x = exp(state(1:3));
     npz_params = itrans(theta);
     
-    
     y = npz_predict(x, phi, npz_params);
     
     y = [log(y); alpha * phi];

@@ -31,7 +31,7 @@ c = log(C);
 
 % True State Initialization -----------------------------------------------
 
-phi0 = 0.1;
+phi0 = .01;
 N0 = .1;
 P0 = .1;
 Z0 = .01;
@@ -54,8 +54,8 @@ No = 1;   % nb of obs
 
 % True Model Noise --------------------------------------------------------
 
-sigma_phi = 0.05; % phi model noise
-sigma_x = 0.032 * ones(3,1); % CI of ± 5% around model forecast
+sigma_phi = 0.00005; % phi model noise
+sigma_x = 0.000032 * ones(3,1); % CI of ± 5% around model forecast
 sqQ = diag([sigma_x; sigma_phi]);
 
 % True Observation noise --------------------------------------------------
@@ -69,4 +69,4 @@ T  = 30; % nb of time steps
 
 % EnKS/KS parameters ------------------------------------------------------
 
-Ne = 100;
+Ne = 10;
