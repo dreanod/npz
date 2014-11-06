@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1415182965 "researchSummary.tex" "researchSummary.pdf" "researchSummary" 1415182966
+["pdflatex"] 1415271663 "researchSummary.tex" "researchSummary.pdf" "researchSummary" 1415271664
   "/usr/local/texlive/2013/texmf-dist/tex/context/base/supp-pdf.mkii" 1337017135 71627 94eb9990bed73c364d7f53f960cc8c5b ""
   "/usr/local/texlive/2013/texmf-dist/tex/generic/ifxetex/ifxetex.sty" 1284331290 1458 43ab4710dc82f3edeabecd0d099626b2 ""
   "/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/etexcmds.sty" 1335995445 7612 c47308d923ec19888707b0f1792b326a ""
@@ -18,6 +18,7 @@
   "/usr/local/texlive/2013/texmf-dist/tex/latex/amsmath/amsopn.sty" 1362954379 4082 502152465aedb8f6a3c4b0b7c0fa8ae5 ""
   "/usr/local/texlive/2013/texmf-dist/tex/latex/amsmath/amstext.sty" 1362954379 2637 846ebe982d3549c7ede7ce135456f54a ""
   "/usr/local/texlive/2013/texmf-dist/tex/latex/base/article.cls" 1254151887 20571 b8bd218bf2e18b4f5817ee643cd9c515 ""
+  "/usr/local/texlive/2013/texmf-dist/tex/latex/base/omscmr.fd" 1254151887 2109 c400bd6c901edc4a09e4d53fcffd3b3c ""
   "/usr/local/texlive/2013/texmf-dist/tex/latex/base/size10.clo" 1254151887 9042 248dfba326a1b8733d6bb8e0a3ac1e49 ""
   "/usr/local/texlive/2013/texmf-dist/tex/latex/caption/caption.sty" 1368312746 65148 c61accbd2b9a5316d9be0887ec48d722 ""
   "/usr/local/texlive/2013/texmf-dist/tex/latex/caption/caption3.sty" 1368312746 62748 b02c0dc118f5f35146d37cec569e83b1 ""
@@ -38,11 +39,11 @@
   "/usr/local/texlive/2013/texmf-dist/tex/latex/oberdiek/kvoptions.sty" 1335995445 22417 c74ff4af6a1aa2b65d1924020edbbe11 ""
   "/usr/local/texlive/2013/texmf-dist/tex/latex/pdftex-def/pdftex.def" 1306616590 55368 3c8a0d99822330f2dfabc0dfb09ce897 ""
   "/usr/local/texlive/2013/texmf-dist/tex/latex/setspace/setspace.sty" 1324344192 22913 a27d7908fc6f0385466454a966a316eb ""
-  "BHM3.jpg" 1395937764 46987 a283c54bd9ce8a00bd41cfb0aff090bd ""
   "chl_ts.png" 1415182765 42287 c0057cdda87c7d7b5efcc23e93a55c86 ""
   "clusters.png" 1415104140 41460 8b296da9649217c70aa88367c4159a65 ""
-  "researchSummary.aux" 1415182965 1264 76e3dbf43cfc72a5c1500b2d0298df31 ""
-  "researchSummary.tex" 1415182963 5671 6ecbbd549c392021457e38192302a2a0 ""
+  "model.png" 1402300004 162099 739f3da66bf1bec1b470afa290d6126d ""
+  "researchSummary.aux" 1415271664 1080 5aa89b652185c493927ed31153ab2018 ""
+  "researchSummary.tex" 1415271660 6331 fc54ed2ed8cd3b026acc9ff1667be912 ""
   (generated)
   "researchSummary.pdf"
   "researchSummary.log"

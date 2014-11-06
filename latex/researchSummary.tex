@@ -30,11 +30,11 @@
 
   \paragraph{Objectives:}
 
-  Here I want to predict the nutrient flux because it can give us an idea about new production. This amount of new production is difficult to estimate without data at high temporal resolution with existing methods [aqaba paper]. Therefore if there is a method that allows us to do that just using satellite data that would be great.
+  I want to predict the nutrient flux from the deep sea to the surface layer in the northern Red Sea. This is interesting, because it could give us an idea about the new production. With existing methods, this amount of new production is difficult to estimate without in-situ data. Therefore if there is a method that allows us to do that by just using satellite data, it could be of interest for marine biologist.
 
   \paragraph{Data:}
 
-  I clustered the red sea into 8 provinces bases on monthly chl patterns. [cluster figure] I want interested in the cluster nb ? during winter 1999-2000 because there is an important bloom in this region. I averaged daily SeaWifs data from [] to [] in the given cluster, giving me the following time series [figure], that is to say [] nb of measurements.  
+  I clustered the red sea into 8 provinces bases on monthly chl data and a Gaussian mixture model clustering algorithm. I am interested in the northernmost cluster during winter 1999-2000 because there is an important bloom in this region. I averaged daily SeaWifs data from December 1999 to May 2000 in the given cluster, giving me the following a time series data.
 
 
   \begin{figure}[ht]
@@ -54,6 +54,12 @@
   \paragraph{Box model:}
 
   We assume that a box model or 0d model represents the mixed layer in the cluster region we are interested in, and futhermore that there is no exchange with the neighboring regions and that the input of nutrient just come from the deep sea. We only model the phytoplankton, the nutrient concentration (we assume that the nitrate is the limiting nutrient), and the grazing pressure through a zooplankton concentration. A certain part of the zooplankton and phytoplankton is assumed to be lost by sinking, whereas a stochastic term models a flux of nutrient that diffuse to the mixed layer from the deep water. This is that term that we are interested in estimating.
+
+  \begin{figure}[ht]
+  \centering
+    \includegraphics[scale=.3]{./model.png}
+  \caption{Box model}
+  \end{figure}
 
   \paragraph{NPZ model:}
 
@@ -84,7 +90,7 @@
   \end{IEEEeqnarray}
 
 
-  \section{Statistical modeling}
+  \section{State-Space model}
 
   Denote $Y_1, ..., Y_T$ the observations of chlorophyll
   concentration, $\X_1, ..., \X_T$ the state variables, with
@@ -92,25 +98,8 @@
   ODE state variables at time $t$. For now on, we actually considere the log
   of these concentrations. 
 
-  \begin{figure}[ht]
-  \centering
-    \includegraphics[scale=.3]{./BHM3.jpg}
-  \caption{BHM second attempt}
-  \end{figure}
 
-  \subparagraph{Data model:}
-
-  The observations are independent conditionally on the state of the system.
-
-  \begin{IEEEeqnarray}{c}
-  	Y_t = c_t + P_t + w^o_t,
-  \end{IEEEeqnarray}
-
-  with $w^o_t \sim \N(0, (\sigma^o_t)^2)$ iid and $c_t$ in the log-conversion
-  rate between the chlorophyll and the phytoplankton concentrations. 
-
-
-  \subparagraph{Process model:}
+  \subparagraph{State Equation:}
 
   The state variables are assumed Markovian:
 
@@ -119,43 +108,46 @@
       \begin{array}{c}
         N_t \\P_t\\ Z_t \\ \Phi_t
       \end{array}\right] = 
-    \left[\begin{array}{c} f(X_{t-1};\theta_t)\\ \Phi_{t-1}
-      \end{array}\right] + \w_t, \w_t \sim \N(0, diag(\Gamma_t))
+    \left[\begin{array}{c} f(X_{t-1};\theta)\\ \alpha\Phi_{t-1}
+      \end{array}\right] + \w_t, \w_t \sim \N(0, diag(\Gamma))
   \end{IEEEeqnarray}
 
-	$f$ is the result of the integration of the ODE system between times 
-	$t-1$ and $t$ with initial conditions $\left[N_{t-1}, P_{t-1}, Z_{t-1}
-	\right]$ and a fixed nutrient flux $\Phi_{t-1}$. 
-  $\Gamma_t = \left[(\sigma_t^N)^2, 
-  (\sigma_t^P)^2, (\sigma_t^Z)^2, (\sigma_t^\Phi)^2\right]$.
-  $\Phi_t$ is a random walk process. 
+  $f$ is the result of the integration of the ODE system between times 
+  $t-1$ and $t$ with initial conditions $\left[N_{t-1}, P_{t-1}, Z_{t-1}
+  \right]$ and a fixed nutrient flux $\Phi_{t-1}$. 
+  $\Gamma$ is the noise model covariance. $\theta$ are the NPZ model parameters.
+  $\Phi_t$ is an autoregressive process with coeffiction $\alpha = 0.7$.
 
 
-  \subparagraph{Transition model:}
+  \subparagraph{Observation equation:}
 
-  We denote: $\lambda_t = [\theta^T_t, \Gamma^T_t, c_t, \sigma^o_t]^T$
-
-  We have to specify a transition model for the time-varying parameters. We choose a random walk process of the form:
+  The observations are independent conditionally on the state of the system.
 
   \begin{IEEEeqnarray}{c}
-    \logit (\lambda^{(i)}_{t+1}) = \logit (\lambda^{(i)}_t) + v^{(i)}_t,
-    \text{ if } \lambda^{(i)}_t = \gamma_t, \\
-    \log (\lambda^{(i)}_{t+1}) = \log (\lambda^{(i)}_t) + v^{(i)}_t,
-    \text{ otherwise},
+  	Y_t = c + P_t + w^o_t,
   \end{IEEEeqnarray}
 
- where $v^\lambda_t$ is a iid Gaussian random error of fix variance.  
-
-
+  with $w^o_t \sim \N(0, (\sigma^o)^2)$ iid and $c$ in the log-conversion
+  rate between the chlorophyll and the phytoplankton concentrations. 
 
 \section{EM methodology}
 
+$\Theta$ = $\{\Gamma, \sigma_o^2, x_0^b, B\}$ are unknown and estimated by with the iterative Expectation-Maximization algorithm, with latent variable the states $X_{0:T}$. In the E-step, the distribution $p(X_{0:T}|\Theta, Y_{0:T})$ is estimated given the current estimate of the parameters $\Theta$. Since it is a smoothing problem with a non linear model, I use the Ensemble Kalman Smoother. In the M-step, $\Theta$ is updated by maximizing $\log p(\Theta|X_{0:T}, Y_{0:T})$
 
 
-\section{Case where $\theta$ is known}
+\section{Problems}
 
-
-\section{Case where $\theta$ is unknown}
+\begin{itemize}
+  \item The model needs to be validated by someone who knows about ecological modelling and the biology of the Red Sea. Currently I don't know:
+  \begin{itemize}
+    \item If a 0d model is appropriate
+    \item If the NPZ captures enough of the dynamics
+    \item What should be the transfer function and the parameters
+    \item If the stochastic nutrient flux assumption is reasonable
+  \end{itemize}
+  \item With the current model I run frequently into numerical instability issues
+  \item The parameter values are unknown, we tried a state-parameter estimation, but it doesn't work except is we start around the true value and put a ridiculous amount of noise. 
+\end{itemize}
 
 
 

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2014.2.18)  5 NOV 2014 13:22
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2014.2.18)  6 NOV 2014 14:01
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -323,12 +323,18 @@ File: ./chl_ts.png Graphic file (type png)
  <use ./chl_ts.png>
 Package pdftex.def Info: ./chl_ts.png used on input line 49.
 (pdftex.def)             Requested size: 173.44933pt x 130.087pt.
-LaTeX Font Info:    Try loading font information for U+rsfs on input line 64.
+
+<./model.png, id=4, 994.917pt x 355.3275pt>
+File: ./model.png Graphic file (type png)
+ <use ./model.png>
+Package pdftex.def Info: ./model.png used on input line 60.
+(pdftex.def)             Requested size: 298.4774pt x 106.59906pt.
+LaTeX Font Info:    Try loading font information for U+rsfs on input line 70.
 
 (/usr/local/texlive/2013/texmf-dist/tex/latex/jknapltx/ursfs.fd
 File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
 )
-Overfull \hbox (7.25055pt too wide) in paragraph at lines 89--94
+Overfull \hbox (7.25055pt too wide) in paragraph at lines 95--100
 \OT1/cmr/m/n/10 Denote $\OML/cmm/m/it/10 Y[]; :::; Y[]$ \OT1/cmr/m/n/10 the ob-
 ser-va-tions of chloro-phyll con-cen-tra-tion, $\OT1/cmr/bx/n/10 X[]\OML/cmm/m/
 it/10 ; :::; \OT1/cmr/bx/n/10 X[]$ \OT1/cmr/m/n/10 the state vari-ables, with $
@@ -338,36 +344,38 @@ it/10 ; :::; \OT1/cmr/bx/n/10 X[]$ \OT1/cmr/m/n/10 the state vari-ables, with $
 [1
 
 {/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./clust
-ers.png> <./chl_ts.png>] <./BHM3.jpg, id=19, 708.6475pt x 489.83pt>
-File: ./BHM3.jpg Graphic file (type jpg)
+ers.png> <./chl_ts.png>]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 141.
 
-<use ./BHM3.jpg>
-Package pdftex.def Info: ./BHM3.jpg used on input line 97.
-(pdftex.def)             Requested size: 212.59589pt x 146.95012pt.
- [2 <./BHM3.jpg>] (./researchSummary.aux) ) 
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 141.
+ [2 <./model.png (PNG copy)>] (./researchSummary.aux) ) 
 Here is how much of TeX's memory you used:
- 4099 strings out of 493315
- 63748 string characters out of 6137904
+ 4110 strings out of 493315
+ 63979 string characters out of 6137904
  134809 words of memory out of 5000000
- 7504 multiletter control sequences out of 15000+600000
- 7125 words of font info for 28 fonts, out of 8000000 for 9000
+ 7514 multiletter control sequences out of 15000+600000
+ 6121 words of font info for 24 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  42i,11n,40p,713b,278s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2013/texmf-dist/
-fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2013/texmf-dist/f
-onts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2013/texmf-dist/fo
-nts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2013/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2013/texmf-dist/font
-s/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2013/texmf-dist/fonts
-/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2013/texmf-dist/fonts/t
-ype1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2013/texmf-dist/fonts/typ
-e1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/
-public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/p
-ublic/amsfonts/cm/cmsy7.pfb>
-Output written on researchSummary.pdf (2 pages, 228191 bytes).
+</usr/local/texlive/2013
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2013/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2013/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2013/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2013/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2013/texmf
+-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2013/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2013/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2013/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmsy7.pfb>
+Output written on researchSummary.pdf (2 pages, 337666 bytes).
 PDF statistics:
- 57 PDF objects out of 1000 (max. 8388607)
- 37 compressed objects within 1 object stream
+ 53 PDF objects out of 1000 (max. 8388607)
+ 34 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  16 words of extra memory for PDF output out of 10000 (max. 10000000)
 
